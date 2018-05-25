@@ -34,8 +34,8 @@ const responseMiddleware = (req, res, next) => {
 	console.log('\n');
 	console.log(req.responseValue);
 	console.log('\n');
-	var transaction = req.responseValue['transactions'][0]['metaData'];
-	console.log(transaction);
+	// var transaction = req.responseValue['transactions'][0]['metaData'];
+	// console.log(transaction);
 
 	determineType(req.responseValue, res);
 
@@ -127,6 +127,7 @@ var cookieExtractor = function(req) {
   //If this strategy is not give the correct value,
   //I believe it won't even be called - Stack ref
   //Called every passport tries to verfiy a jwt
+  //returns to us a user object
   var prodJWTStrategy = new JWT_strategy(jwtOptions, function(jwt_res, next){
 
 	console.log('json web token recieved', jwt_res);
@@ -344,14 +345,23 @@ router.get('/profiles/self', passport.authenticate('jwt', {session: false})
 	}	
 });
 
-router.get('/mine', jwtAuth.auth , POS_item.mine, function(req, res) {
+router.get('/mine', passport.authenticate('jwt', {session: false}) , POS_item.mine, function(req, res) {
 	console.log('\n');
 	console.log(req['responseValue']);
+	const user = (req.responseValue['user'])
+	console.log('Our user object from within the Mine function is : ' + user)
 	res.render('profile', {info: req});
 
 });
 //need to make changes to the generic response middLeware function to reflect our JWT auth
-router.get('/chain' ,jwtAuth.auth ,POS_item.getChain, responseMiddleware);
+router.get('/chain' ,jwtAuth.auth ,POS_item.getChain, function(req, res){
+	var type = req.responseValue['type'];
+	console.log(type);
+	console.log('\n');
+	console.log(req.responseValue);
+	console.log('\n');
+	res.render('profile', {info: req});
+});
 
 router.get('/new/transaction', POS_item.newTransaction, responseMiddleware);
 

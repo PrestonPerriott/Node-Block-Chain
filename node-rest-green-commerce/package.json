@@ -4,7 +4,8 @@
   "description": "A node.js restful api for green commerce 4.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon green-commerce-app.js"
   },
   "keywords": [
     "api",
@@ -33,6 +34,7 @@
     "mongodb": "*",
     "mongoose": "*",
     "node-fetch": "^2.1.2",
+    "nodemon": "^1.17.5",
     "passport": "*",
     "passport-http": "*",
     "passport-jwt": "^4.0.0",

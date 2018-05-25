@@ -12,12 +12,13 @@ class POSproduct {
 
     //Our POCProduct endpoint middleware 
     getChain (req, res, next) {
-        req.responseValue = {
+        const responseValue = {
             message: 'Retrieving Block Chain',
             chain: this.blockchain.chain,
             type: 'chain'
         }
         //might want to try and pass the responseObject to next 
+        req.responseValue = responseValue;
         return next();
     }
 
@@ -30,6 +31,10 @@ class POSproduct {
         const proof = this.blockchain.proofOfWork(lastProof);
 
         console.log('User Object from within the mine function' + req.user);
+
+        //All of this is uneccessary because before we call the mine function we call,
+        //jwt.auth, which essentially does our verify with the JWTOptions, and returns to the next funct our user
+        //req.user should be fine here 
         console.log('\n' + JSON.stringify(req.headers.cookie));
         var cookie = req.cookies['token'];
         var decoded  = jwt.verify(cookie, 'secret');
@@ -69,7 +74,8 @@ class POSproduct {
         //our response to server 
         const responseValue = Object.assign({
             message: 'Product Added',
-            type: 'mine'
+            type: 'mine',
+            user: req.user
         }, newBlock );
         req.responseValue = responseValue;
        // console.log(responseValue);
