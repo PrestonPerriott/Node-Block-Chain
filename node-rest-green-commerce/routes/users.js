@@ -350,8 +350,8 @@ router.get('/mine', jwtAuth.auth , POS_item.mine, function(req, res) {
 	res.render('profile', {info: req});
 
 });
-
-router.get('/chain' ,POS_item.getChain, responseMiddleware);
+//need to make changes to the generic response middLeware function to reflect our JWT auth
+router.get('/chain' ,jwtAuth.auth ,POS_item.getChain, responseMiddleware);
 
 router.get('/new/transaction', POS_item.newTransaction, responseMiddleware);
 
