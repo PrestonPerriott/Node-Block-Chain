@@ -48,7 +48,7 @@
         </nav>
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-          <h1>{{{info.user.username}}}'s Profile</h1>
+          <h1>Welcome to your Profile {{{info.user.username}}}</h1>
 
           <section class="row text-center placeholders">
             <div class="col-6 col-sm-3 placeholder">
@@ -71,19 +71,29 @@
               <h4>Label</h4>
               {{#if info.responseValue.type}}
               <span class="text-muted">{{{info.responseValue.type}}}</span>
+              {{else}}
+              <span class="text-muted">Something else</span>
               {{/if}}
             </div>
           </section>
 
 
-        {{#if info.user.username}}
-          <h2>Section title</h2>
+        {{#if info.responseValue.type}}
+          <h2>{{{info.responseValue.type}}}</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>{{{info.user.email}}}</th>
-                  <th>Chain</th>
+                  <th>{{{info.responseValue.message}}}</th>
+                  {{else}}
+                  <h2>No response Type</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{{{info.user.email}}}</th>
+                  <th>No response message</th>
                   {{/if}}
                   <th>Header</th>
                   <th>Header</th>

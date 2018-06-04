@@ -15,7 +15,8 @@ class POSproduct {
         const responseValue = {
             message: 'Retrieving Block Chain',
             chain: this.blockchain.chain,
-            type: 'chain'
+            type: 'chain',
+            user: req.user
         }
         //might want to try and pass the responseObject to next 
         req.responseValue = responseValue;

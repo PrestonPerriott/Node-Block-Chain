@@ -139,7 +139,7 @@ var cookieExtractor = function(req) {
 			return next(err, false);
 		}
 		if (user) {
-			next(null, user);
+			next(null, user);  //passes either null or a user to our next fucntion 
 			console.log('The user object is : ', user);
 		} else {
 			next(null, false);
@@ -326,10 +326,14 @@ router.get('/logout', function(req, res, next){
 	res.redirect('login');
 });
 
+//We might want to start reconstructing our views to reflect the mine/chain and another data we now manipulate
+//In order to properly do that, we have to utilize the handlebars if/else better
+//
 router.get('/profiles/self', passport.authenticate('jwt', {session: false})
-,function (req, res){
+,function (req, res, next){
 	var currUser = req.user;
 	//req.user is  {id: 2938y923, username:something, email:ah.com}
+	console.log('Our user from inside get profile is : ' + currUser)
 	if (currUser.id === req.user.id){
 
 	//passing object to template 
@@ -354,15 +358,17 @@ router.get('/mine', passport.authenticate('jwt', {session: false}) , POS_item.mi
 
 });
 //need to make changes to the generic response middLeware function to reflect our JWT auth
-router.get('/chain' ,jwtAuth.auth ,POS_item.getChain, function(req, res){
+router.get('/chain' , passport.authenticate('jwt', {session: false}) ,POS_item.getChain, function(req, res){
 	var type = req.responseValue['type'];
 	console.log(type);
 	console.log('\n');
 	console.log(req.responseValue);
 	console.log('\n');
+	var user = req.responseValue['user'];  	
 	res.render('profile', {info: req});
 });
 
+//Still passing our newTransaction obj to our responseMiddleware, need to reconstruct 
 router.get('/new/transaction', POS_item.newTransaction, responseMiddleware);
 
 router.get('/analytics', passport.authenticate('jwt', {session: false})
