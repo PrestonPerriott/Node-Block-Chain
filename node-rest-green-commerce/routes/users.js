@@ -329,7 +329,7 @@ router.get('/logout', function(req, res, next){
 //We might want to start reconstructing our views to reflect the mine/chain and another data we now manipulate
 //In order to properly do that, we have to utilize the handlebars if/else better
 //
-router.get('/profiles/self', passport.authenticate('jwt', {session: false})
+router.get('/profiles/self', passport.authenticate('jwt', {session: false}) //Need tp gfigure out why our next function isnt getting called 
 ,function (req, res, next){
 	var currUser = req.user;
 	//req.user is  {id: 2938y923, username:something, email:ah.com}
@@ -354,6 +354,7 @@ router.get('/mine', passport.authenticate('jwt', {session: false}) , POS_item.mi
 	console.log(req['responseValue']);
 	const user = (req.responseValue['user'])
 	console.log('Our user object from within the Mine function is : ' + user)
+	console.log('The transactional data is : ' + JSON.stringify(req.responseValue['transactions']))
 	res.render('profile', {info: req});
 
 });

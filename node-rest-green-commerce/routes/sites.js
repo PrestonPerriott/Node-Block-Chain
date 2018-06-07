@@ -13,7 +13,7 @@ var Site = require('../models/site');
 
 cannaReports.setCannabisReportsKey('1b171d895f86554afd912dba2b8f543f2c85a370');
 //var lists = cannaReports.Strain.all();
-router.get('/collection', ensureAuth, async function(req, res){
+router.get('/collection', async function(req, res){
 
 	try {
 
@@ -31,7 +31,7 @@ router.get('/collection', ensureAuth, async function(req, res){
 	//console.log(newStrain['data']);
 	console.log('\n');
 	console.log(newStrain['data'][0]['image']);    //How to access specific object in JSON
-	res.render('siteDash');
+	res.render('siteDash', {info: dispensaryAry});
 	} catch (err) {
 		console.error(err);
 		res.status(500);
