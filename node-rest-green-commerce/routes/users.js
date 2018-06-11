@@ -49,6 +49,11 @@ router.get('/register', function(req, res) {
 	res.render('register');
 });
 
+router.get('/mobile', function(req, res){
+	console.log('Our request from the mobile get function is : ' + req)
+	res.send({success: true, response: '/users/mobile route'})
+})
+
 //Login Page
 router.get('/login', function(req, res) {
 	res.render('login');
