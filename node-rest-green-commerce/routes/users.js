@@ -3,6 +3,9 @@
 express = require('express');    
 var router = express.Router();
 
+//error handler 
+var {catchErrors} = require('../handlers/errorHandler')
+
 //passport 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -45,9 +48,18 @@ const responseMiddleware = (req, res, next) => {
 };
 
 //a Get request route for a /register & /login route, that will render the view called register and login respectively
-router.get('/register', function(req, res) {
-	res.render('register');
-});
+router.get('/register', catchErrors(async function(req, res) {
+	try {res.render('register')
+
+	} catch (error) {
+		if ([401, 404].includes(error.response.status)) {
+			print('Weird errors')
+		}else {
+			throw error
+		}
+	}
+	
+}));
 
 router.get('/mobile', function(req, res){
 	console.log('Our request from the mobile get function is : ' + req)
